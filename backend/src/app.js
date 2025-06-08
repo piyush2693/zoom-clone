@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import userRoutes from "./routes/users.routes.js";
 import {connectToSocket} from './controllers//socketManager.js'
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const server = createServer(app);
@@ -20,7 +22,7 @@ app.use(express.urlencoded({ limit: "40kb", extended: true}));
 app.use("/api/v1/users", userRoutes);
 
 const start = async () => {
-    const connectionDb = await mongoose.connect("mongodb+srv://pk9995114:pk1234@cluster0.lipcgwx.mongodb.net/");
+    const connectionDb = await mongoose.connect(process.env.MONGO_URL);
     console.log(`Mongo connected db host : ${connectionDb.connection.host}`)
   server.listen(app.get("port"), () => {
     console.log("Listing on port 8000");
